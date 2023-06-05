@@ -36,10 +36,10 @@ app.get('/',(req,res)=>{
     })
 })
 
-app.post('/sendmail',(req,res)=>{
+app.post('/sendmail',async(req,res)=>{
     const data = req.body;
     try{
-        sendEmail({
+        await sendEmail({
             email:data.email,
             subject:data.subject,
             message:data.message
@@ -61,7 +61,7 @@ app.post('/sendmail',(req,res)=>{
 app.all('*',(req,res)=>{
     res.status(400).json({
         status:'fail',
-        message:'err'
+        message:err
     })
 });
 
