@@ -7,6 +7,7 @@ const cors = require('cors');
 dotenv.config({ path: './config.env' });
 const app = express();
 app.use(express.json());
+app.use(express.static('public'));
 app.use(cors());
 
 const sendEmail = async options =>{
@@ -39,10 +40,9 @@ app.get('/',(req,res)=>{
 
 app.post('/sendmail',async(req,res)=>{
     const data = req.body;
-    let html =  fs.readFileSync(__dirname+'/index.html','utf8');
+    let html =  fs.readFileSync('public/index.html','utf8');
     html = html.replace('{userData.name}',`'${data.message.name}'`).replace('{userData.phone}',`'${data.message.phone}'`).replace('{userData.gender}',`'${data.message.gender}'`).replace('{userData.email}',`'${data.email}'`);
     html = html.replace('{userData.subject}',`${data.subject}`).replace('{userData.message}',`${data.message.message}`);
-    console.log(html);
     try{
         await sendEmail({
             email:data.email,
