@@ -1,6 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const nodemailer = require('nodemailer');
+const fs = require('fs');
 const cors = require('cors');
 
 dotenv.config({ path: './config.env' });
@@ -23,7 +24,7 @@ const sendEmail = async options =>{
         from:'youremail@gmail.com',
         to:options.email,
         subject:options.subject,
-        text:options.message
+        html:options.htmlToSend
     }
     // 3)Actually send the email to the email address
     await transporter.sendMail(mailOptions);
@@ -38,11 +39,15 @@ app.get('/',(req,res)=>{
 
 app.post('/sendmail',async(req,res)=>{
     const data = req.body;
+    let html =  fs.readFileSync(__dirname+'/index.html','utf8');
+    html = html.replace('{userData.name}',`'${data.message.name}'`).replace('{userData.phone}',`'${data.message.phone}'`).replace('{userData.gender}',`'${data.message.gender}'`).replace('{userData.email}',`'${data.email}'`);
+    html = html.replace('{userData.subject}',`${data.subject}`).replace('{userData.message}',`${data.message.message}`);
+    console.log(html);
     try{
         await sendEmail({
             email:data.email,
             subject:data.subject,
-            message:data.message
+            htmlToSend:html
         })
         res.status(200).json({
             status:'success',
