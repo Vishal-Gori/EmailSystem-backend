@@ -58,7 +58,7 @@ app.post('/sendmail',async(req,res)=>{
         console.log(err);
         res.status(400).json({
             status:'fail',
-            message:err
+            message:'An Unexpected error has occured'
         });
     }
 })
