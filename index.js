@@ -38,7 +38,7 @@ app.get('/',(req,res)=>{
 
 app.post('/sendmail',async(req,res)=>{
     const data = req.body;
-    let html =  `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Response</title></head><body><h1>Data sent from form :-</h1><h4>Name : {userData.name}</h4><h4>Phone : {userData.phone}</h4><h4>Gender : {userData.gender}</h4><h4>Email : {userData.email}</h4><h4>Subject : {userData.subject}</h4><h4>Message : {userData.message}</h4></body></html>`
+    let html =  `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Response</title></head><body><div style="text-align: center;"><div style="background-color: #88CFE7;border:2px; border-radius: 5px; border-color: blue ;color: blue;"><h1>Data sent from form :-</h1></div><div style="color: blue; border: 1px solid; border-radius: 5px;"><h4>Name : {userData.name}</h4><h4>Phone : {userData.phone}</h4><h4>Gender : {userData.gender}</h4><h4>Email : {userData.email}</h4><h4>Subject : {userData.subject}</h4><h4>Message : {userData.message}</h4></div></div></body> </html>`
     html = html.replace('{userData.name}',`'${data.message.name}'`).replace('{userData.phone}',`'${data.message.phone}'`).replace('{userData.gender}',`'${data.message.gender}'`).replace('{userData.email}',`'${data.email}'`);
     html = html.replace('{userData.subject}',`${data.subject}`).replace('{userData.message}',`${data.message.message}`);
     try{
